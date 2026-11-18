@@ -2,6 +2,17 @@
 
 The [notebook](GlobalForms-metric-pilot.ipynb) reviews PDF specification recovery (Track A) and scenario completion (Track B). It imports the scoring suite from `globalforms.metrics`. The incident and locker bundles contain synthetic reference data and deliberately perturbed submissions.
 
+### Rendered fixture reviews
+
+| | Incident report | Locker receipt |
+|---|---|---|
+| GitHub preview | [Open incident notebook](GlobalForms-metric-pilot.ipynb) | [Open locker notebook](GlobalForms-locker-review.ipynb) |
+| Source page | 1 | 2 |
+| Track A comparisons | 5 | 1 |
+| Track B comparisons | 5 | 2 |
+
+Both previews use the same source cells. The locker notebook is a saved execution of the incident notebook with the locker manifest selected.
+
 ## Run a fixture
 
 Use Python 3.10 or later and uv. Run from the repository root.
@@ -17,12 +28,11 @@ The default is the [incident review](fixtures/incident/review.json). To switch t
 GLOBALFORMS_FIXTURE=fixtures/locker/review.json uv run --locked --extra notebook jupyter lab GlobalForms-metric-pilot.ipynb
 ```
 
-For a fully executed notebook from the shell:
+To regenerate the locker preview from the source notebook:
 
 ```sh
-mkdir -p output/locker
 GLOBALFORMS_FIXTURE=fixtures/locker/review.json uv run --locked --extra notebook jupyter nbconvert \
-  --execute --to notebook --output-dir output/locker GlobalForms-metric-pilot.ipynb
+  --execute --to notebook --output GlobalForms-locker-review.ipynb GlobalForms-metric-pilot.ipynb
 ```
 
 A PDF-backed bundle uses Poppler's `pdfinfo` and `pdftoppm` on PATH. The incident bundle uses a pre-rendered page and runs with the uv environment alone.
