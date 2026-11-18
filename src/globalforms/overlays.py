@@ -144,6 +144,8 @@ def draw_layer(ax, marks: Iterable[Mark], layer: Layer, *, color="#256281", line
         if show_labels and mark.label and layer != "rules":
             row = rows.get(mark.box, 0)
             label = mark.label
+            if layer == "roles" and mark.source_id is None:
+                label += " (default)"
             if mark.source_page is not None and mark.source_page != mark.page:
                 label += f" (from p. {mark.source_page})"
             ax.annotate(label, (x, y), xytext=(0, 3 + row * 10), textcoords="offset points",

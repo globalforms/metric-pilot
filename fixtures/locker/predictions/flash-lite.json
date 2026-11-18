@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "pilot-1",
+  "fields": {
+    "locker_identifier": {
+      "label": "Locker identifier",
+      "section": "key_receipt",
+      "role": null,
+      "evidenceIds": [
+        "ev_locker_identifier"
+      ],
+      "regions": [
+        "reg_locker_identifier"
+      ],
+      "type": "text",
+      "options": {}
+    },
+    "pickup_date": {
+      "label": "Pickup date",
+      "section": "key_receipt",
+      "role": null,
+      "evidenceIds": [
+        "ev_pickup_date"
+      ],
+      "regions": [
+        "reg_pickup_date"
+      ],
+      "type": "date",
+      "options": {}
+    }
+  },
+  "sections": {
+    "key_receipt": {
+      "title": "Key receipt",
+      "evidenceIds": [
+        "ev_key_receipt"
+      ],
+      "role": null,
+      "parent": null
+    }
+  },
+  "regions": {
+    "reg_locker_identifier": {
+      "page": 2,
+      "bbox": [
+        190.08,
+        75.9,
+        128.92,
+        18.0
+      ]
+    },
+    "reg_pickup_date": {
+      "page": 2,
+      "bbox": [
+        190.08,
+        122.1,
+        128.92,
+        18.0
+      ]
+    }
+  },
+  "evidence": {
+    "ev_key_receipt": {
+      "page": 2,
+      "bbox": [
+        25.08,
+        37.5,
+        84.04,
+        11.7
+      ]
+    },
+    "ev_locker_identifier": {
+      "page": 2,
+      "bbox": [
+        27.72,
+        78.3,
+        79.2,
+        6.9
+      ]
+    },
+    "ev_pickup_date": {
+      "page": 2,
+      "bbox": [
+        27.72,
+        124.8,
+        57.64,
+        6.9
+      ]
+    }
+  },
+  "rules": [],
+  "validations": []
+}

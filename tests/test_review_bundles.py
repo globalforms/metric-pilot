@@ -1,13 +1,16 @@
 """Acceptance checks at the fixture-loader and metric-package boundaries."""
 
 import json
+from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
 from globalforms.fixtures import load_review
 from globalforms.metrics import pool_a, track_a, track_b
-from globalforms.metrics.alignment import matching
+from globalforms.metrics.alignment import align, matching, region_iou
+from globalforms.overlays import page_marks
+from globalforms.spec import FormSpec
 
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
@@ -42,6 +45,44 @@ class BundleTests(TestCase):
         oracle = track_b(omitted.submitted, omitted.expected, ref)
         self.assertEqual((end_to_end["value"], end_to_end["complete"]), ((2, 2), (1, 1)))
         self.assertEqual((oracle["value"], oracle["complete"]), ((1, 2), (0, 1)))
+
+    def test_cached_locker_prediction(self):
+        bundle = load_review(FIXTURES / "locker/review.json")
+        case, = [case for case in bundle.track_a if case.model == "gemini-3.5-flash-lite"]
+        pred, ref = wire(case.spec), wire(bundle.reference)
+        regions, _ = align(pred, ref)
+        overlaps = {r: round(region_iou(pred["regions"][p], ref["regions"][r]), 4)
+                    for p, r in regions.items()}
+        self.assertEqual(overlaps, {"locker_box": .8033, "date_box": .8114})
+
+        scores, diagnostics = track_a(pred, ref, default_role=bundle.default_role)
+        self.assertEqual(scores, {"geometry": (2, 0, 0), "fields": (2, 0, 0), "sections": (2, 0, 0),
+                                  "roles": (2, 0, 0), "rules": (0, 0, 0)})
+        self.assertEqual(track_a(pred, ref)[0]["roles"], (0, 2, 2))
+        self.assertEqual(diagnostics["validation"], (0, 0, 1))
+        self.assertEqual(diagnostics["requiredness"], (0, 0, 0))
+
+    def test_locker_omitted_and_explicit_roles(self):
+        bundle = load_review(FIXTURES / "locker/review.json")
+        self.assertEqual(bundle.default_role, "Custodian")
+        ref = wire(bundle.reference)
+        candidate = deepcopy(ref)
+        del candidate["sections"]["receipt"]["role"]
+
+        def roles():
+            return track_a(candidate, ref, default_role=bundle.default_role)[0]["roles"]
+
+        self.assertEqual(track_a(candidate, ref)[0]["roles"], (0, 2, 2))
+        self.assertEqual(roles(), (2, 0, 0))
+        marks = page_marks(FormSpec.model_validate(candidate), bundle.page,
+                           default_role=bundle.default_role)
+        self.assertEqual([(m.label, m.source_id) for m in marks if m.layer == "roles"],
+                         [("Custodian", None), ("Custodian", None)])
+
+        candidate["sections"]["receipt"]["role"] = "Reviewer"
+        self.assertEqual(roles(), (0, 2, 2))
+        candidate["fields"]["locker"]["role"] = "Custodian"
+        self.assertEqual(roles(), (1, 1, 1))
 
     def test_legacy_inline_case_and_invalid_reference(self):
         empty = dict(schemaVersion="pilot-1", fields={}, regions={}, rules=[],

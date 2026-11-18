@@ -22,6 +22,7 @@ class BundleModel(BaseModel):
 class RecoveryCase(BundleModel):
     layer: Layer
     spec: FormSpec
+    model: str | None = None
     title: str | None = None
     explanation: str = ""
     inspect_regions: tuple[str, str] | None = None

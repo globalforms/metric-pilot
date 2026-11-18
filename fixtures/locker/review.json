@@ -2,6 +2,7 @@
   "version": 1,
   "pdf": "locker.pdf",
   "page": 2,
+  "default_role": "Custodian",
   "reference": "reference.json",
   "crop": [
     12,
@@ -15,6 +16,13 @@
       "spec": "predictions/receipt.json",
       "title": "Omitted receipt membership",
       "explanation": "The locker box is grounded correctly. Its recovered field has no receipt section, so one of two membership edges is missing."
+    },
+    {
+      "layer": "roles",
+      "spec": "predictions/flash-lite.json",
+      "model": "gemini-3.5-flash-lite",
+      "title": "Cached Gemini 3.5 Flash-Lite",
+      "explanation": "Gemini omitted both roles. The reference section assigns Custodian to both fields, and the fixture default supplies Custodian for the prediction. Gemini also omitted the pickup date’s calendar validation."
     }
   ],
   "track_b": [
