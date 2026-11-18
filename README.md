@@ -25,3 +25,26 @@ schema = FormSpec.model_json_schema()
 ```
 
 The package models the pilot-0 and pilot-1 notebook formats. Document page bounds and full competition conformance are future work.
+
+## Review overlays
+
+`globalforms.overlays.page_marks(spec, page)` returns the marks for one page.
+Each mark identifies its field and answer region. A relationship can also point to a
+source on another page. Coordinates are top-left PDF points. Pass the scorer's default
+role explicitly if it should appear on unassigned fields.
+
+```python
+from globalforms.overlays import page_marks
+
+payload = [mark.to_dict() for mark in page_marks(spec, page=1)]
+```
+
+A browser can group marks by layer, use field and region IDs for selection, and apply
+the PDF viewer's page-to-viewport transform when zooming or rotating. Translated
+labels can be supplied through the input spec. The notebook uses the optional
+Matplotlib adapters `page_axes`, `draw_layer`, `draw_region_pair` and `compare_layer`.
+Matching and scoring belong to the evaluator. A displayed pair of regions can be
+inspected even when it fails matching.
+
+The notebook background in `fixtures/incident-page-1.png` is a rendering of the
+synthetic stage-5 PDF embedded in the scoring explainer.
