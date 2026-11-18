@@ -48,3 +48,11 @@ inspected even when it fails matching.
 
 The notebook background in `fixtures/incident-page-1.png` is a rendering of the
 synthetic stage-5 PDF embedded in the scoring explainer.
+
+## Review a different fixture
+
+Set `review_path` in the notebook to the new fixture's manifest. The [incident manifest](fixtures/incident/review.json) is a worked example. It selects one page image, its dimensions in PDF points, optional viewports and default role, and a [reference specification](fixtures/incident/reference.json). Relative paths resolve from the manifest's directory.
+
+Track A cases supply a layer and a saved candidate spec. A geometry case can also name a reference/prediction region pair to inspect. Track B cases supply the narrative, expected entries, submitted entries and a caption. An optional candidate spec enables grounding-based alignment. The scorer computes the results from these inputs.
+
+The incident reference stores the union of each heading's page-1 word boxes measured with Poppler on the embedded stage-5 PDF. Historical stages and Appendix A examples live under `fixtures/incident/regressions/`. Those fixed regression checks run independently of the selected review fixture.

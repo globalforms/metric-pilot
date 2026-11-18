@@ -13,7 +13,7 @@ Box = tuple[float, float, float, float]
 class Mark:
     layer: Layer
     page: int
-    field_id: str
+    field_id: str | None
     region_id: str
     box: Box
     label: str = ""
@@ -23,6 +23,9 @@ class Mark:
 
     option: str | None = None
     field_type: str | None = None
+
+    condition: str | None = None
+    effect: str | None = None
 
     def to_dict(self):
         """JSON-compatible values for a browser canvas or SVG renderer."""
@@ -34,6 +37,12 @@ def page_marks(spec: FormSpec, page: int, *, default_role: str | None = None) ->
     if page < 1:
         raise ValueError("Pages start at 1")
     marks = []
+    for section_id, section in spec.sections.items():
+        for key in section.evidenceIds:
+            anchor = spec.evidence[key]
+            if anchor.page == page:
+                marks.append(Mark("sections", page, None, key, tuple(anchor.bbox),
+                                  section.title, source_id=section_id))
     for field_id, field in spec.fields.items():
         ancestors = []
         section_id = field.section
@@ -46,10 +55,10 @@ def page_marks(spec: FormSpec, page: int, *, default_role: str | None = None) ->
                 continue
             box = tuple(region.bbox)
 
-            def add(layer, label="", source_id=None, source=None, *, option=None):
+            def add(layer, label="", source_id=None, source=None, *, option=None, condition=None, effect=None):
                 marks.append(Mark(layer, page, field_id, region_id, box, label, source_id,
                                   source.page if source else None, tuple(source.bbox) if source else None,
-                                  option=option, field_type=field.type))
+                                  option=option, field_type=field.type, condition=condition, effect=effect))
 
             def evidence(ids):
                 anchors = [spec.evidence[key] for key in ids]
@@ -76,27 +85,63 @@ def page_marks(spec: FormSpec, page: int, *, default_role: str | None = None) ->
                 control = spec.fields[rule.controller]
                 widget = control.options[rule.option]
                 op = "=" if rule.op == "eq" else "≠"
-                add("rules", f"{control.label} {op} {rule.option} → {rule.effect}",
-                    widget, spec.regions[widget])
+                condition = f"{control.label} {op} {rule.option}"
+                add("rules", f"{condition} → {rule.effect}", widget, spec.regions[widget],
+                    condition=condition, effect=rule.effect)
     return marks
 
 
+def _section_colors(marks):
+    palette = ("#007a71", "#9053a0", "#a9610c", "#386aa6", "#b34655", "#617932")
+    ids = sorted({m.source_id for m in marks if m.layer == "sections" and m.source_id is not None})
+    return {key: palette[i % len(palette)] for i, key in enumerate(ids)}
+
+
 def draw_layer(ax, marks: Iterable[Mark], layer: Layer, *, color="#256281", linestyle="-",
-               show_labels=True):
+               show_labels=True, section_colors=None):
     """Draw into caller-owned axes already set to top-left PDF coordinates."""
     from matplotlib.patches import Rectangle
 
+    if layer == "sections":
+        from matplotlib.colors import to_rgba
+
+        members = [m for m in marks if m.layer == layer]
+        colors = section_colors if section_colors is not None else _section_colors(members)
+        for mark in members:
+            x, y, w, h = mark.box
+            ink = colors.get(mark.source_id, color)
+            heading = mark.field_id is None
+            ax.add_patch(Rectangle((x, y), w, h, edgecolor=ink,
+                                   facecolor="none" if heading else to_rgba(ink, .20),
+                                   linewidth=1.5 if heading else 1, linestyle=linestyle))
+        return
+
     rows = {}
+    connections = set()
+    rule_key = {}
     for mark in marks:
         if mark.layer != layer:
             continue
         x, y, w, h = mark.box
         ax.add_patch(Rectangle((x, y), w, h, fill=False, edgecolor=color, linestyle=linestyle))
+        if layer == "rules":
+            key = (mark.condition or mark.label, mark.field_id, mark.source_page)
+            effects = rule_key.setdefault((*key, mark.page), [])
+            if mark.effect and mark.effect not in effects:
+                effects.append(mark.effect)
+            edge = (mark.source_box, mark.source_page, mark.box)
+            if edge in connections:
+                continue
+            connections.add(edge)
         if mark.source_box and mark.source_page == mark.page:
             sx, sy, sw, sh = mark.source_box
-            ax.annotate("", xy=(x, y + h / 2), xytext=(sx + sw / 2, sy + sh / 2),
+            start = (sx + sw / 2, sy + sh / 2)
+            end = (x, y + h / 2)
+            if layer == "rules":
+                end = (min(max(start[0], x), x + w), min(max(start[1], y), y + h))
+            ax.annotate("", xy=end, xytext=start,
                         arrowprops={"arrowstyle": "->", "color": color, "lw": 0.9})
-        if show_labels and mark.label:
+        if show_labels and mark.label and layer != "rules":
             row = rows.get(mark.box, 0)
             label = mark.label
             if mark.source_page is not None and mark.source_page != mark.page:
@@ -104,6 +149,13 @@ def draw_layer(ax, marks: Iterable[Mark], layer: Layer, *, color="#256281", line
             ax.annotate(label, (x, y), xytext=(0, 3 + row * 10), textcoords="offset points",
                         fontsize=8, color=color, bbox={"facecolor": "white", "edgecolor": "none", "alpha": .85})
             rows[mark.box] = row + 1
+    if show_labels and rule_key:
+        lines = []
+        for (condition, target, source_page, page), effects in rule_key.items():
+            source = f" (p. {source_page})" if source_page != page and source_page else ""
+            lines.append(f"{condition}{source} → {target}  ({', '.join(effects)})")
+        ax.text(0, -.04, "\n".join(lines), transform=ax.transAxes, va="top",
+                fontsize=9, color=color, parse_math=False)
 
 
 def page_axes(ax, page_size, *, image=None, crop=None):
@@ -140,9 +192,14 @@ def compare_layer(reference, prediction, layer: Layer, page_size, *, image=None,
     import matplotlib.pyplot as plt
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 4), layout="constrained")
+    if layer == "sections":
+        reference, prediction = list(reference), list(prediction)
+        colors = _section_colors([*reference, *prediction])
+    else:
+        colors = None
     for ax, marks, title, color in zip(axes, (reference, prediction), ("Reference", "Prediction"),
                                        ("#256281", "#ae4935")):
         page_axes(ax, page_size, image=image, crop=crop)
-        draw_layer(ax, marks, layer, color=color)
+        draw_layer(ax, marks, layer, color=color, section_colors=colors)
         ax.set_title(title, loc="left", fontsize=11, color=color)
     return fig

@@ -1,0 +1,303 @@
+{
+  "reference": {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "incident": {
+        "label": "Incident?",
+        "type": "choice",
+        "section": "applicant",
+        "evidenceIds": [
+          "incident"
+        ],
+        "regions": [
+          "incident_0",
+          "incident_1"
+        ],
+        "options": {
+          "No": "incident_0",
+          "Yes": "incident_1"
+        },
+        "cardinality": [
+          1,
+          1
+        ]
+      },
+      "date": {
+        "label": "Date",
+        "type": "date",
+        "section": "applicant",
+        "evidenceIds": [
+          "date"
+        ],
+        "regions": [
+          "date_0"
+        ],
+        "options": {}
+      },
+      "time": {
+        "label": "Time",
+        "type": "time",
+        "section": "applicant",
+        "evidenceIds": [
+          "time"
+        ],
+        "regions": [
+          "time_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "incident_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          14,
+          16
+        ]
+      },
+      "incident_1": {
+        "page": 1,
+        "bbox": [
+          365,
+          85,
+          14,
+          16
+        ]
+      },
+      "date_0": {
+        "page": 1,
+        "bbox": [
+          30,
+          120,
+          100,
+          20
+        ]
+      },
+      "time_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          155,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "incident": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      },
+      "date": {
+        "page": 1,
+        "bbox": [
+          48,
+          120,
+          215,
+          16
+        ]
+      },
+      "time": {
+        "page": 1,
+        "bbox": [
+          48,
+          155,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {
+      "applicant": {
+        "title": "Applicant",
+        "evidenceIds": [
+          "applicant_heading"
+        ]
+      }
+    },
+    "rules": [
+      {
+        "controller": "incident",
+        "op": "eq",
+        "option": "Yes",
+        "fields": [
+          "date",
+          "time"
+        ]
+      }
+    ],
+    "validations": []
+  },
+  "prediction": {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "incident": {
+        "label": "Incident?",
+        "type": "choice",
+        "section": "applicant",
+        "evidenceIds": [
+          "incident"
+        ],
+        "regions": [
+          "incident_0",
+          "incident_1"
+        ],
+        "options": {
+          "No": "incident_0",
+          "Yes": "incident_1"
+        },
+        "cardinality": [
+          1,
+          1
+        ]
+      },
+      "date": {
+        "label": "Date",
+        "type": "date",
+        "section": "applicant",
+        "evidenceIds": [
+          "date"
+        ],
+        "regions": [
+          "date_0"
+        ],
+        "options": {}
+      },
+      "time": {
+        "label": "Time",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "time"
+        ],
+        "regions": [
+          "time_0"
+        ],
+        "options": {}
+      },
+      "extra": {
+        "label": "Extra",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "extra"
+        ],
+        "regions": [
+          "extra_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "incident_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          14,
+          16
+        ]
+      },
+      "incident_1": {
+        "page": 1,
+        "bbox": [
+          365,
+          85,
+          14,
+          16
+        ]
+      },
+      "date_0": {
+        "page": 1,
+        "bbox": [
+          100,
+          120,
+          100,
+          20
+        ]
+      },
+      "time_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          155,
+          205,
+          16
+        ]
+      },
+      "extra_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          191,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "incident": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      },
+      "date": {
+        "page": 1,
+        "bbox": [
+          48,
+          120,
+          215,
+          16
+        ]
+      },
+      "time": {
+        "page": 1,
+        "bbox": [
+          48,
+          155,
+          215,
+          16
+        ]
+      },
+      "extra": {
+        "page": 1,
+        "bbox": [
+          48,
+          191,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {
+      "applicant": {
+        "title": "Applicant",
+        "evidenceIds": [
+          "applicant_heading"
+        ]
+      }
+    },
+    "rules": [
+      {
+        "controller": "incident",
+        "op": "eq",
+        "option": "No",
+        "fields": [
+          "date"
+        ]
+      }
+    ],
+    "validations": []
+  }
+}

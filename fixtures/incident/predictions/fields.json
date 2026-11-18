@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "pilot-1",
+  "fields": {
+    "name": {
+      "label": "Applicant name",
+      "section": "applicant",
+      "evidenceIds": [
+        "name"
+      ],
+      "regions": [
+        "name_0"
+      ],
+      "type": "text",
+      "options": {}
+    },
+    "reviewer": {
+      "label": "Reviewer name",
+      "section": "office",
+      "evidenceIds": [
+        "reviewer"
+      ],
+      "regions": [
+        "reviewer_0"
+      ],
+      "type": "text",
+      "options": {}
+    },
+    "review_date": {
+      "label": "Review date (YYYY-MM-DD)",
+      "section": "office",
+      "evidenceIds": [
+        "review_date"
+      ],
+      "regions": [
+        "review_date_0"
+      ],
+      "type": "date",
+      "options": {}
+    },
+    "incident": {
+      "label": "Incident? (select one)",
+      "section": "applicant",
+      "evidenceIds": [
+        "incident"
+      ],
+      "regions": [
+        "incident_0",
+        "incident_1"
+      ],
+      "type": "choice",
+      "options": {
+        "Yes": "incident_0",
+        "No": "incident_1"
+      },
+      "cardinality": [
+        1,
+        1
+      ]
+    },
+    "details": {
+      "label": "If Yes, describe the incident",
+      "section": "applicant",
+      "evidenceIds": [
+        "details"
+      ],
+      "regions": [
+        "details_0"
+      ],
+      "type": "text",
+      "options": {}
+    }
+  },
+  "sections": {
+    "applicant": {
+      "title": "Applicant",
+      "evidenceIds": [
+        "applicant_heading"
+      ]
+    },
+    "office": {
+      "title": "Business Office",
+      "evidenceIds": [
+        "office_heading"
+      ],
+      "role": "Business Office"
+    }
+  },
+  "regions": {
+    "name_0": {
+      "page": 1,
+      "bbox": [
+        280.0,
+        85.0,
+        205.0,
+        16.0
+      ]
+    },
+    "reviewer_0": {
+      "page": 1,
+      "bbox": [
+        280.0,
+        250.0,
+        205.0,
+        16.0
+      ]
+    },
+    "review_date_0": {
+      "page": 1,
+      "bbox": [
+        280.0,
+        285.0,
+        205.0,
+        16.0
+      ]
+    },
+    "incident_0": {
+      "page": 1,
+      "bbox": [
+        280.0,
+        120.0,
+        14.0,
+        16.0
+      ]
+    },
+    "incident_1": {
+      "page": 1,
+      "bbox": [
+        365.0,
+        120.0,
+        14.0,
+        16.0
+      ]
+    },
+    "details_0": {
+      "page": 1,
+      "bbox": [
+        280.0,
+        155.0,
+        205.0,
+        16.0
+      ]
+    }
+  },
+  "evidence": {
+    "name": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        85.0,
+        215.0,
+        16.0
+      ]
+    },
+    "applicant_heading": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        61.102,
+        50.116,
+        10.175
+      ]
+    },
+    "office_heading": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        227.102,
+        83.138,
+        10.175
+      ]
+    },
+    "reviewer": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        250.0,
+        215.0,
+        16.0
+      ]
+    },
+    "review_date": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        285.0,
+        215.0,
+        16.0
+      ]
+    },
+    "incident": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        120.0,
+        215.0,
+        16.0
+      ]
+    },
+    "details": {
+      "page": 1,
+      "bbox": [
+        48.0,
+        155.0,
+        215.0,
+        16.0
+      ]
+    }
+  },
+  "rules": [
+    {
+      "effect": "applicable",
+      "controller": "incident",
+      "op": "eq",
+      "option": "Yes",
+      "fields": [
+        "details"
+      ],
+      "evidenceIds": [
+        "details"
+      ]
+    },
+    {
+      "effect": "required",
+      "controller": "incident",
+      "op": "eq",
+      "option": "Yes",
+      "fields": [
+        "details"
+      ],
+      "evidenceIds": [
+        "details"
+      ]
+    }
+  ],
+  "validations": [
+    {
+      "kind": "iso_calendar_date",
+      "fields": [
+        "review_date"
+      ],
+      "evidenceIds": [
+        "review_date"
+      ]
+    }
+  ]
+}

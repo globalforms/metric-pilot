@@ -1,0 +1,583 @@
+[
+  {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "name": {
+        "label": "Applicant name",
+        "type": "text",
+        "section": null,
+        "evidenceIds": [
+          "name"
+        ],
+        "regions": [
+          "name_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "name_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "name": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {},
+    "rules": [],
+    "validations": []
+  },
+  {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "name": {
+        "label": "Applicant name",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "name"
+        ],
+        "regions": [
+          "name_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "name_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "name": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      },
+      "applicant_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          57,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {
+      "applicant": {
+        "title": "Applicant",
+        "evidenceIds": [
+          "applicant_heading"
+        ]
+      }
+    },
+    "rules": [],
+    "validations": []
+  },
+  {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "name": {
+        "label": "Applicant name",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "name"
+        ],
+        "regions": [
+          "name_0"
+        ],
+        "options": {}
+      },
+      "reviewer": {
+        "label": "Reviewer name",
+        "type": "text",
+        "section": "office",
+        "evidenceIds": [
+          "reviewer"
+        ],
+        "regions": [
+          "reviewer_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "name_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          205,
+          16
+        ]
+      },
+      "reviewer_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          250,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "name": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      },
+      "applicant_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          57,
+          215,
+          16
+        ]
+      },
+      "office_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          223,
+          215,
+          16
+        ]
+      },
+      "reviewer": {
+        "page": 1,
+        "bbox": [
+          48,
+          250,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {
+      "applicant": {
+        "title": "Applicant",
+        "evidenceIds": [
+          "applicant_heading"
+        ]
+      },
+      "office": {
+        "title": "Business Office",
+        "role": "Business Office",
+        "evidenceIds": [
+          "office_heading"
+        ]
+      }
+    },
+    "rules": [],
+    "validations": []
+  },
+  {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "name": {
+        "label": "Applicant name",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "name"
+        ],
+        "regions": [
+          "name_0"
+        ],
+        "options": {}
+      },
+      "reviewer": {
+        "label": "Reviewer name",
+        "type": "text",
+        "section": "office",
+        "evidenceIds": [
+          "reviewer"
+        ],
+        "regions": [
+          "reviewer_0"
+        ],
+        "options": {}
+      },
+      "review_date": {
+        "label": "Review date (YYYY-MM-DD)",
+        "type": "date",
+        "section": "office",
+        "evidenceIds": [
+          "review_date"
+        ],
+        "regions": [
+          "review_date_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "name_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          205,
+          16
+        ]
+      },
+      "reviewer_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          250,
+          205,
+          16
+        ]
+      },
+      "review_date_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          285,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "name": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      },
+      "applicant_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          57,
+          215,
+          16
+        ]
+      },
+      "office_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          223,
+          215,
+          16
+        ]
+      },
+      "reviewer": {
+        "page": 1,
+        "bbox": [
+          48,
+          250,
+          215,
+          16
+        ]
+      },
+      "review_date": {
+        "page": 1,
+        "bbox": [
+          48,
+          285,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {
+      "applicant": {
+        "title": "Applicant",
+        "evidenceIds": [
+          "applicant_heading"
+        ]
+      },
+      "office": {
+        "title": "Business Office",
+        "role": "Business Office",
+        "evidenceIds": [
+          "office_heading"
+        ]
+      }
+    },
+    "rules": [],
+    "validations": [
+      {
+        "fields": [
+          "review_date"
+        ],
+        "kind": "iso_calendar_date",
+        "evidenceIds": [
+          "review_date"
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": "pilot-0",
+    "fields": {
+      "name": {
+        "label": "Applicant name",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "name"
+        ],
+        "regions": [
+          "name_0"
+        ],
+        "options": {}
+      },
+      "reviewer": {
+        "label": "Reviewer name",
+        "type": "text",
+        "section": "office",
+        "evidenceIds": [
+          "reviewer"
+        ],
+        "regions": [
+          "reviewer_0"
+        ],
+        "options": {}
+      },
+      "review_date": {
+        "label": "Review date (YYYY-MM-DD)",
+        "type": "date",
+        "section": "office",
+        "evidenceIds": [
+          "review_date"
+        ],
+        "regions": [
+          "review_date_0"
+        ],
+        "options": {}
+      },
+      "incident": {
+        "label": "Incident? (select one)",
+        "type": "choice",
+        "section": "applicant",
+        "evidenceIds": [
+          "incident"
+        ],
+        "regions": [
+          "incident_0",
+          "incident_1"
+        ],
+        "options": {
+          "No": "incident_0",
+          "Yes": "incident_1"
+        },
+        "cardinality": [
+          1,
+          1
+        ]
+      },
+      "details": {
+        "label": "If Yes, describe the incident",
+        "type": "text",
+        "section": "applicant",
+        "evidenceIds": [
+          "details"
+        ],
+        "regions": [
+          "details_0"
+        ],
+        "options": {}
+      }
+    },
+    "regions": {
+      "name_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          85,
+          205,
+          16
+        ]
+      },
+      "reviewer_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          250,
+          205,
+          16
+        ]
+      },
+      "review_date_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          285,
+          205,
+          16
+        ]
+      },
+      "incident_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          120,
+          14,
+          16
+        ]
+      },
+      "incident_1": {
+        "page": 1,
+        "bbox": [
+          365,
+          120,
+          14,
+          16
+        ]
+      },
+      "details_0": {
+        "page": 1,
+        "bbox": [
+          280,
+          155,
+          205,
+          16
+        ]
+      }
+    },
+    "evidence": {
+      "name": {
+        "page": 1,
+        "bbox": [
+          48,
+          85,
+          215,
+          16
+        ]
+      },
+      "applicant_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          57,
+          215,
+          16
+        ]
+      },
+      "office_heading": {
+        "page": 1,
+        "bbox": [
+          48,
+          223,
+          215,
+          16
+        ]
+      },
+      "reviewer": {
+        "page": 1,
+        "bbox": [
+          48,
+          250,
+          215,
+          16
+        ]
+      },
+      "review_date": {
+        "page": 1,
+        "bbox": [
+          48,
+          285,
+          215,
+          16
+        ]
+      },
+      "incident": {
+        "page": 1,
+        "bbox": [
+          48,
+          120,
+          215,
+          16
+        ]
+      },
+      "details": {
+        "page": 1,
+        "bbox": [
+          48,
+          155,
+          215,
+          16
+        ]
+      }
+    },
+    "sections": {
+      "applicant": {
+        "title": "Applicant",
+        "evidenceIds": [
+          "applicant_heading"
+        ]
+      },
+      "office": {
+        "title": "Business Office",
+        "role": "Business Office",
+        "evidenceIds": [
+          "office_heading"
+        ]
+      }
+    },
+    "rules": [
+      {
+        "controller": "incident",
+        "op": "eq",
+        "option": "Yes",
+        "fields": [
+          "details"
+        ],
+        "evidenceIds": [
+          "details"
+        ]
+      }
+    ],
+    "validations": [
+      {
+        "fields": [
+          "review_date"
+        ],
+        "kind": "iso_calendar_date",
+        "evidenceIds": [
+          "review_date"
+        ]
+      }
+    ]
+  }
+]
