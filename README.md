@@ -77,7 +77,17 @@ grade = track_b(case.submitted, case.expected, gold, recovered)
 
 The scoring API takes dictionaries in the pilot form format. `FormSpec.model_validate_json` validates a producer's spec and `FormSpec.model_json_schema()` exports the current schema. `pool_a` sums component counts before F1. `paired_pass` checks exact entries on selected fields across paired scenarios. The one-to-one matcher is intended for small pilot forms.
 
+### Error flags
+
+Both matrices use string enums from `globalforms.metrics`. Each member has a stable JSON key (`.value`) and a display label (`.label`). `track_a_flags(*track_a(candidate, gold))` returns booleans keyed by `TrackAFlag`. For example, `flags[TrackAFlag.OPTION_OWNERSHIP]` is true when that diagnostic has a false positive or false negative, including downstream alignment errors.
+
+`track_b_flags(grade, drawable_field_ids=ids)` returns booleans keyed by `TrackBFlag`. Supply the submitted IDs with drawable answer marks to distinguish an unknown entry on the PDF from one without a box. An accepted blank sets `OMITTED_EXPECTED_FIELD`. Omitting a supplied answer also sets `OMITTED_SUPPLIED_ANSWER` and `ANY_SCORING_ERROR`. Each saved case exports the flags as JSON booleans alongside its counts.
+
 ### 3. Inspect results
+
+Displaying a `FormSpec` in Jupyter shows its serialized groups with the paper’s colors. For a review UI, import `formspec_html` from `globalforms.spec_view`. Pass one validated spec for a full view, or call `formspec_html(reference, prediction, changed_only=True)` to see changed entries side by side. The static HTML preserves the original IDs, roles and evidence links. Text labels identify each group in viewers that strip inline colors.
+
+Answer regions locate writable space. Evidence anchors locate the source that supports a field, section, rule or validation. For example, the locker fixture’s `date_box` is where the date goes and `date_label` cites the printed label. The pilot validates evidence references and uses them in review overlays. Track A scores the geometry of answer regions. Evidence localization and the relevance of a citation to its claim have no metric in the current suite.
 
 The notebook writes to `output/<fixture-folder>/track-a/` and `track-b/`. Both include the shared reference and one PNG and predicted spec per comparison. Track A also writes ranked and diagnostic counts. Track B writes each narrative, expected and submitted entries, mode and grade. The matrix is embedded in the notebook.
 
