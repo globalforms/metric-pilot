@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "reference": "reference.json",
   "page": 1,
   "image": "../incident-page-1.png",
@@ -58,196 +59,39 @@
   "track_b": [
     {
       "title": "Accepted omission",
-      "scenario": "Alex reports a broken latch. The review date is 29 February 2004. The reviewer is unnamed.",
-      "expected": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "status": "missing"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "submitted": {
-        "name": {
-          "value": "Alex"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "explanation": "The reference records the reviewer as missing. Leaving that box empty earns the point."
+      "explanation": "The reference records the reviewer as missing. Leaving that box empty earns the point.",
+      "scenario_file": "scenarios/reviewer-unnamed.txt",
+      "expected": "expected/reviewer-unnamed.json",
+      "submitted": "submissions/reviewer-omitted.json"
     },
     {
       "title": "Penalized omission",
-      "scenario": "Alex reports a broken latch. Sam reviews the incident on 29 February 2004.",
-      "expected": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "submitted": {
-        "name": {
-          "value": "Alex"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "explanation": "The same predicted form omits Sam, a reviewer named in this scenario."
+      "explanation": "The same predicted form omits Sam, a reviewer named in this scenario.",
+      "scenario_file": "scenarios/incident-yes.txt",
+      "expected": "expected/incident-yes.json",
+      "submitted": "submissions/reviewer-omitted.json"
     },
     {
       "title": "Inactive entry",
-      "scenario": "Alex selects No for incident. The narrative still mentions a broken latch. Sam reviews on 29 February 2004.",
-      "expected": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "No"
-        }
-      },
-      "submitted": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "No"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "explanation": "Selecting No makes details inactive. Submitting Broken latch adds one extra entry."
+      "explanation": "Selecting No makes details inactive. Submitting Broken latch adds one extra entry.",
+      "scenario_file": "scenarios/incident-no.txt",
+      "expected": "expected/incident-no.json",
+      "submitted": "submissions/inactive-details.json"
     },
     {
       "title": "Unknown entry with a predicted region",
-      "scenario": "Alex reports a broken latch. Sam reviews the incident on 29 February 2004.",
-      "expected": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "submitted": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        },
-        "case_number": {
-          "value": "C-17"
-        }
-      },
       "explanation": "C-17 appears in a predicted box below the date. That field has no reference match.",
-      "spec": "predictions/extra-field.json"
+      "spec": "predictions/extra-field.json",
+      "scenario_file": "scenarios/incident-yes.txt",
+      "expected": "expected/incident-yes.json",
+      "submitted": "submissions/extra-case-number.json"
     },
     {
       "title": "Unknown entry without a region",
-      "scenario": "Alex reports a broken latch. Sam reviews the incident on 29 February 2004.",
-      "expected": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        }
-      },
-      "submitted": {
-        "name": {
-          "value": "Alex"
-        },
-        "reviewer": {
-          "value": "Sam"
-        },
-        "review_date": {
-          "value": "2004-02-29"
-        },
-        "incident": {
-          "value": "Yes"
-        },
-        "details": {
-          "value": "Broken latch"
-        },
-        "case_number": {
-          "value": "C-17"
-        }
-      },
-      "explanation": "The submission includes case_number, but the supplied spec gives it no box. It still counts as an extra entry."
+      "explanation": "The submission includes case_number, but the supplied spec gives it no box. It still counts as an extra entry.",
+      "scenario_file": "scenarios/incident-yes.txt",
+      "expected": "expected/incident-yes.json",
+      "submitted": "submissions/extra-case-number.json"
     }
   ]
 }

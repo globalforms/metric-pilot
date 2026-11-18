@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "pilot-1",
+  "fields": {
+    "pickup": {
+      "label": "Pickup date",
+      "section": "receipt",
+      "type": "date",
+      "options": {},
+      "regions": [
+        "date_box"
+      ],
+      "evidenceIds": [
+        "date_label"
+      ]
+    },
+    "slot": {
+      "label": "Locker identifier",
+      "section": null,
+      "type": "text",
+      "options": {},
+      "regions": [
+        "locker_box"
+      ],
+      "evidenceIds": [
+        "locker_label"
+      ]
+    }
+  },
+  "sections": {
+    "receipt": {
+      "title": "Key receipt",
+      "role": "Custodian",
+      "evidenceIds": [
+        "heading"
+      ]
+    }
+  },
+  "regions": {
+    "locker_box": {
+      "page": 2,
+      "bbox": [
+        190,
+        76,
+        130,
+        22
+      ]
+    },
+    "date_box": {
+      "page": 2,
+      "bbox": [
+        190,
+        122,
+        130,
+        22
+      ]
+    }
+  },
+  "evidence": {
+    "heading": {
+      "page": 2,
+      "bbox": [
+        24,
+        33,
+        85,
+        16
+      ]
+    },
+    "locker_label": {
+      "page": 2,
+      "bbox": [
+        28,
+        82,
+        80,
+        11
+      ]
+    },
+    "date_label": {
+      "page": 2,
+      "bbox": [
+        28,
+        128,
+        60,
+        11
+      ]
+    }
+  },
+  "rules": [],
+  "validations": [
+    {
+      "kind": "iso_calendar_date",
+      "fields": [
+        "pickup"
+      ],
+      "evidenceIds": [
+        "date_label"
+      ]
+    }
+  ]
+}

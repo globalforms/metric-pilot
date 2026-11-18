@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "pdf": "locker.pdf",
+  "page": 2,
+  "reference": "reference.json",
+  "crop": [
+    12,
+    18,
+    340,
+    162
+  ],
+  "track_a": [
+    {
+      "layer": "sections",
+      "spec": "predictions/receipt.json",
+      "title": "Omitted receipt membership",
+      "explanation": "The locker box is grounded correctly. Its recovered field has no receipt section, so one of two membership edges is missing."
+    }
+  ],
+  "track_b": [
+    {
+      "scenario_file": "scenarios/collection.txt",
+      "expected": "expected/collection.json",
+      "title": "Recovered slot ID",
+      "spec": "predictions/receipt.json",
+      "submitted": "submissions/collection.json",
+      "explanation": "Physical grounding binds the recovered slot field to the locker identifier. Both answers are correct."
+    },
+    {
+      "scenario_file": "scenarios/collection.txt",
+      "expected": "expected/collection.json",
+      "title": "Missing pickup date",
+      "submitted": "submissions/date-omitted.json",
+      "explanation": "The narrative supplies the date. Omitting it loses one of the two expected answers."
+    }
+  ]
+}

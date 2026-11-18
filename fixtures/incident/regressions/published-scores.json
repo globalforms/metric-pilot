@@ -1,0 +1,446 @@
+{
+  "baseline_commit": "25416629a9bf765127320a988a39a27f91605ce0",
+  "track_a": {
+    "geometry": [
+      {
+        "geometry": [
+          5,
+          1,
+          1
+        ],
+        "fields": [
+          4,
+          1,
+          1
+        ],
+        "sections": [
+          4,
+          1,
+          1
+        ],
+        "roles": [
+          4,
+          1,
+          1
+        ],
+        "rules": [
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "type": [
+          4,
+          1,
+          1
+        ],
+        "label": [
+          4,
+          1,
+          1
+        ],
+        "option ownership": [
+          4,
+          1,
+          1
+        ],
+        "cardinality": [
+          4,
+          1,
+          1
+        ],
+        "validation": [
+          1,
+          0,
+          0
+        ],
+        "requiredness": [
+          0,
+          1,
+          1
+        ]
+      }
+    ],
+    "fields": [
+      {
+        "geometry": [
+          6,
+          0,
+          0
+        ],
+        "fields": [
+          4,
+          1,
+          1
+        ],
+        "sections": [
+          5,
+          0,
+          0
+        ],
+        "roles": [
+          5,
+          0,
+          0
+        ],
+        "rules": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "type": [
+          5,
+          0,
+          0
+        ],
+        "label": [
+          5,
+          0,
+          0
+        ],
+        "option ownership": [
+          4,
+          1,
+          1
+        ],
+        "cardinality": [
+          5,
+          0,
+          0
+        ],
+        "validation": [
+          1,
+          0,
+          0
+        ],
+        "requiredness": [
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "sections": [
+      {
+        "geometry": [
+          6,
+          0,
+          0
+        ],
+        "fields": [
+          5,
+          0,
+          0
+        ],
+        "sections": [
+          4,
+          0,
+          1
+        ],
+        "roles": [
+          5,
+          0,
+          0
+        ],
+        "rules": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "type": [
+          5,
+          0,
+          0
+        ],
+        "label": [
+          5,
+          0,
+          0
+        ],
+        "option ownership": [
+          5,
+          0,
+          0
+        ],
+        "cardinality": [
+          5,
+          0,
+          0
+        ],
+        "validation": [
+          1,
+          0,
+          0
+        ],
+        "requiredness": [
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "roles": [
+      {
+        "geometry": [
+          6,
+          0,
+          0
+        ],
+        "fields": [
+          5,
+          0,
+          0
+        ],
+        "sections": [
+          5,
+          0,
+          0
+        ],
+        "roles": [
+          3,
+          2,
+          2
+        ],
+        "rules": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "type": [
+          5,
+          0,
+          0
+        ],
+        "label": [
+          5,
+          0,
+          0
+        ],
+        "option ownership": [
+          5,
+          0,
+          0
+        ],
+        "cardinality": [
+          5,
+          0,
+          0
+        ],
+        "validation": [
+          1,
+          0,
+          0
+        ],
+        "requiredness": [
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "geometry": [
+          6,
+          0,
+          0
+        ],
+        "fields": [
+          5,
+          0,
+          0
+        ],
+        "sections": [
+          5,
+          0,
+          0
+        ],
+        "roles": [
+          5,
+          0,
+          0
+        ],
+        "rules": [
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "type": [
+          5,
+          0,
+          0
+        ],
+        "label": [
+          5,
+          0,
+          0
+        ],
+        "option ownership": [
+          5,
+          0,
+          0
+        ],
+        "cardinality": [
+          5,
+          0,
+          0
+        ],
+        "validation": [
+          1,
+          0,
+          0
+        ],
+        "requiredness": [
+          1,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "track_b": {
+    "Accepted omission": {
+      "value": [
+        5,
+        5
+      ],
+      "coverage": [
+        4,
+        5
+      ],
+      "inactive": [
+        0,
+        0
+      ],
+      "activity": [
+        5,
+        5
+      ],
+      "complete": [
+        1,
+        1
+      ],
+      "unmatched": 0,
+      "unmatched_ids": [],
+      "omitted_expected": 1,
+      "omitted_supplied": 0
+    },
+    "Penalized omission": {
+      "value": [
+        4,
+        5
+      ],
+      "coverage": [
+        4,
+        5
+      ],
+      "inactive": [
+        0,
+        0
+      ],
+      "activity": [
+        4,
+        5
+      ],
+      "complete": [
+        0,
+        1
+      ],
+      "unmatched": 0,
+      "unmatched_ids": [],
+      "omitted_expected": 1,
+      "omitted_supplied": 1
+    },
+    "Inactive entry": {
+      "value": [
+        4,
+        5
+      ],
+      "coverage": [
+        4,
+        4
+      ],
+      "inactive": [
+        1,
+        1
+      ],
+      "activity": [
+        4,
+        5
+      ],
+      "complete": [
+        0,
+        1
+      ],
+      "unmatched": 0,
+      "unmatched_ids": [],
+      "omitted_expected": 0,
+      "omitted_supplied": 0
+    },
+    "Unknown entry with a predicted region": {
+      "value": [
+        5,
+        6
+      ],
+      "coverage": [
+        5,
+        5
+      ],
+      "inactive": [
+        0,
+        0
+      ],
+      "activity": [
+        5,
+        5
+      ],
+      "complete": [
+        0,
+        1
+      ],
+      "unmatched": 1,
+      "unmatched_ids": [
+        "case_number"
+      ],
+      "omitted_expected": 0,
+      "omitted_supplied": 0
+    },
+    "Unknown entry without a region": {
+      "value": [
+        5,
+        6
+      ],
+      "coverage": [
+        5,
+        5
+      ],
+      "inactive": [
+        0,
+        0
+      ],
+      "activity": [
+        5,
+        5
+      ],
+      "complete": [
+        0,
+        1
+      ],
+      "unmatched": 1,
+      "unmatched_ids": [
+        "case_number"
+      ],
+      "omitted_expected": 0,
+      "omitted_supplied": 0
+    }
+  }
+}
