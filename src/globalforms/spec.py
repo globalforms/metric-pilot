@@ -81,6 +81,12 @@ class FormSpec(Model):
     rules: list[ChoiceRule]
     validations: list[DateValidation]
 
+    def _repr_html_(self) -> str:
+        """Show the semantic JSON groups when a notebook displays a FormSpec."""
+        from .spec_view import formspec_html
+
+        return formspec_html(self)
+
     @model_validator(mode="after")
     def check_references(self):
         owned = set()
