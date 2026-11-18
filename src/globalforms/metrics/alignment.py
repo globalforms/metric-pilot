@@ -36,14 +36,31 @@ def matching(pred_ids, ref_ids, weight):
     return dict(best(0, 0)[1])
 
 
+def intersection_area(first, second):
+    """Intersection of two (x, y, width, height) boxes on the same page."""
+    x, y, w, h = first
+    X, Y, W, H = second
+    return max(0, min(x+w, X+W)-max(x, X)) * max(0, min(y+h, Y+H)-max(y, Y))
+
+
+def region_iou(pred, ref):
+    """Page-aware intersection over union for two validated answer regions."""
+    if pred["page"] != ref["page"]:
+        return 0.0
+    p, r = pred["bbox"], ref["bbox"]
+    intersection = intersection_area(p, r)
+    union = p[2] * p[3] + r[2] * r[3] - intersection
+    return intersection / union if union > 0 else 0.0
+
+
 def hit(pred, ref):
     if pred["page"] != ref["page"]:
         return False
-    x, y, w, h = pred["bbox"]
-    X, Y, W, H = ref["bbox"]
+    w, h = pred["bbox"][2:]
+    W, H = ref["bbox"][2:]
     if min(w, h, W, H) <= 0:
         return False
-    intersection = max(0, min(x+w, X+W)-max(x, X)) * max(0, min(y+h, Y+H)-max(y, Y))
+    intersection = intersection_area(pred["bbox"], ref["bbox"])
     return intersection >= .50 * W * H and intersection >= .20 * w * h
 
 

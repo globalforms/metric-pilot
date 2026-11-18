@@ -77,7 +77,11 @@ def rule_edges(spec, ref, alignment, effect="applicable"):
 
 
 def track_a(pred, ref, *, default_role=None):
-    """Score spec dictionaries; return (ranked counts, diagnostic counts), each TP/FP/FN."""
+    """Return ranked and diagnostic TP/FP/FN counts for the two specs.
+
+    Both specs use the field role, then the nearest ancestor section role, then
+    the evaluator's optional default_role.
+    """
     regions, fields = align(pred, ref)
     pf, rf = pred["fields"], ref["fields"]
 

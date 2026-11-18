@@ -8,8 +8,10 @@ The [notebook](GlobalForms-metric-pilot.ipynb) reviews PDF specification recover
 |---|---|---|
 | GitHub preview | [Open incident notebook](GlobalForms-metric-pilot.ipynb) | [Open locker notebook](GlobalForms-locker-review.ipynb) |
 | Source page | 1 | 2 |
-| Track A comparisons | 5 | 1 |
+| Track A comparisons | 5 | 2 |
 | Track B comparisons | 5 | 2 |
+
+The locker Track A review includes a cached `gemini-3.5-flash-lite` prediction on the flat PDF. It displays the reference and predicted answer boxes, per-box intersection over union (IoU), and both effective roles. The score table distinguishes ranked components from diagnostics. It also shows how role F1 changes when the evaluator supplies the fixture default. Rerunning the review reads the [published prediction](fixtures/locker/predictions/flash-lite.json) and scores it locally.
 
 Both previews use the same source cells. The locker notebook is a saved execution of the incident notebook with the locker manifest selected.
 
@@ -54,9 +56,15 @@ The current scorer version is `pilot-metrics-1`. Exports record it separately fr
 Give each document its own folder and `review.json`. File references resolve from that manifest. See [incident](fixtures/incident) for separate narratives, expected entries, submissions and candidate specs. One scenario and one expected-answer file can serve multiple model submissions.
 
 - Set `version: 1`, `reference` and the one-based `page`. A PDF source uses `pdf` and derives its size from the unrotated CropBox. A raster source uses `image` plus `page_size` in PDF points. Optional `crop` and `completion_crop` select top-left x/y/width/height viewports. The pilot renders one selected page per manifest. Scores cover all fields in the specs.
-- Each Track A case specifies a `layer` and candidate `spec`. A geometry case can include `inspect_regions` with one reference and one candidate region ID. The optional default role belongs to the bundle.
+- Each Track A case specifies a `layer` and candidate `spec`. A geometry case can include `inspect_regions` with one reference and one candidate region ID. For a cached model comparison, set `model` to the model ID and point `spec` to its normalized prediction. The notebook then includes a table of matched boxes and a full score breakdown.
 - Each Track B case specifies `title`, `scenario_file` (UTF-8 text), `expected` and `submitted` (JSON files). Set `spec` for end-to-end grounding. Omit it for oracle mode. The grader accepts the reviewed reference separately from the submission. A prior manifest with inline `scenario`, `expected` and `submitted` still loads.
 - Titles and explanations describe planted errors. Scoring functions use the spec and entry values.
+
+### Role defaults
+
+For a form with a single completion role, declare it once in the review manifest, for example `"default_role": "Custodian"` on the locker receipt. Track A resolves each aligned field’s role on both sides by checking the field first, then its enclosing sections from nearest to farthest, then the configured default. An explicit conflicting assignment still counts as an error. In the incident fixture, business-office fields inherit their section role and the other fields can fall back to Applicant.
+
+The default is evaluator input. An omitted argument leaves the scorer without a fallback. The role overlay adds `(default)` when a field uses it. The saved FormSpecs preserve the original declarations.
 
 ### 2. Import the scorers
 
