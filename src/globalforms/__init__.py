@@ -1,3 +1,3 @@
-from .spec import FormSpec
+from .spec import FormSpec, PredictionFormSpec
 
-__all__ = ["FormSpec"]
+__all__ = ["FormSpec", "PredictionFormSpec"]

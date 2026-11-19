@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "pilot-1",
+  "schemaVersion": "pilot-2",
   "fields": {
     "name": {
       "label": "Applicant name",
@@ -264,13 +264,14 @@
   ],
   "validations": [
     {
-      "kind": "iso_calendar_date",
+      "kind": "date_format",
       "fields": [
         "review_date"
       ],
       "evidenceIds": [
         "review_date"
-      ]
+      ],
+      "format": "YYYY-MM-DD"
     }
   ]
 }

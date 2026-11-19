@@ -2,6 +2,7 @@
 
 from collections import Counter
 
+from ..validations import DateValidation, wire_validation
 from .alignment import align, matching, normalize
 
 
@@ -110,8 +111,19 @@ def track_a(pred, ref, *, default_role=None):
              for key in ("type", "label", "option ownership", "cardinality")}
 
     def constraints(spec, ids):
-        return Counter((tuple(sorted(ids.get(k, f"unmatched:{k}") for k in v["fields"])), v["kind"])
-                       for v in spec["validations"])
+        result = Counter()
+        for record in spec["validations"]:
+            rule = wire_validation.validate_python(record)
+            if isinstance(rule, DateValidation):
+                # Archived records applied to the entire target tuple.
+                target = tuple(sorted(ids.get(k, f"unmatched:{k}") for k in rule.fields))
+                result[target, rule.kind] += 1
+                continue
+            for field in set(rule.fields):
+                target = ids.get(field, ("unmatched", field))
+                for claim in rule.claims():
+                    result[target, claim] = 1
+        return result
 
     pv = constraints(pred, fields)
     rv = constraints(ref, {k: k for k in rf})

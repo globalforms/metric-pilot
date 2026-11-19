@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "pdf": "references.pdf",
+  "reference": "reference.json",
+  "page": 1,
+  "crop": [
+    15,
+    14,
+    425,
+    226
+  ],
+  "validation_probes": [
+    "12",
+    "ABCDEF",
+    "001234",
+    "1234567"
+  ],
+  "track_a": [
+    {
+      "layer": "validation",
+      "spec": "predictions/same-maximum.json",
+      "title": "Predicting six characters for every box",
+      "explanation": "The plain box has no stated limit. Six character cells support a maximum of six. The printed instruction adds a minimum of six and restricts the return reference to digits."
+    }
+  ]
+}

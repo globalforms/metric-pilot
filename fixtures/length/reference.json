@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "pilot-2",
+  "fields": {
+    "plain": {
+      "label": "Dispatch reference",
+      "section": null,
+      "type": "text",
+      "regions": [
+        "plain_box"
+      ],
+      "evidenceIds": [
+        "plain_label"
+      ],
+      "options": {}
+    },
+    "cells": {
+      "label": "Depot reference",
+      "section": null,
+      "type": "text",
+      "regions": [
+        "cells_box"
+      ],
+      "evidenceIds": [
+        "cells_label"
+      ],
+      "options": {}
+    },
+    "digits": {
+      "label": "Return reference",
+      "section": null,
+      "type": "text",
+      "regions": [
+        "digits_box"
+      ],
+      "evidenceIds": [
+        "digits_label"
+      ],
+      "options": {}
+    }
+  },
+  "sections": {},
+  "regions": {
+    "plain_box": {
+      "page": 1,
+      "bbox": [
+        233,
+        75,
+        132,
+        23
+      ]
+    },
+    "cells_box": {
+      "page": 1,
+      "bbox": [
+        233,
+        137,
+        132,
+        23
+      ]
+    },
+    "digits_box": {
+      "page": 1,
+      "bbox": [
+        233,
+        199,
+        132,
+        23
+      ]
+    }
+  },
+  "evidence": {
+    "plain_label": {
+      "page": 1,
+      "bbox": [
+        28,
+        79,
+        109.1,
+        15
+      ]
+    },
+    "cells_label": {
+      "page": 1,
+      "bbox": [
+        28,
+        141,
+        93.2,
+        15
+      ]
+    },
+    "six_cells": {
+      "page": 1,
+      "bbox": [
+        233,
+        137,
+        132,
+        23
+      ]
+    },
+    "digits_label": {
+      "page": 1,
+      "bbox": [
+        28,
+        203,
+        97.5,
+        15
+      ]
+    },
+    "digits_instruction": {
+      "page": 1,
+      "bbox": [
+        28,
+        221,
+        95.0,
+        13
+      ]
+    }
+  },
+  "rules": [],
+  "validations": [
+    {
+      "kind": "length",
+      "fields": [
+        "cells"
+      ],
+      "max": 6,
+      "evidenceIds": [
+        "six_cells"
+      ]
+    },
+    {
+      "kind": "length",
+      "fields": [
+        "digits"
+      ],
+      "min": 6,
+      "max": 6,
+      "evidenceIds": [
+        "digits_instruction"
+      ]
+    },
+    {
+      "kind": "character_set",
+      "fields": [
+        "digits"
+      ],
+      "alphabet": "ascii_digits",
+      "evidenceIds": [
+        "digits_instruction"
+      ]
+    }
+  ]
+}

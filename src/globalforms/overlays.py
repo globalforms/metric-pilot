@@ -4,8 +4,9 @@ from dataclasses import asdict, dataclass
 from typing import Iterable, Literal
 
 from .spec import FormSpec
+from .validations import describe
 
-Layer = Literal["geometry", "fields", "sections", "roles", "rules"]
+Layer = Literal["geometry", "fields", "sections", "roles", "rules", "validation"]
 Box = tuple[float, float, float, float]
 
 
@@ -65,6 +66,8 @@ def page_marks(spec: FormSpec, page: int, *, default_role: str | None = None) ->
                 return next((a for a in anchors if a.page == page), next(iter(anchors), None))
 
             add("geometry")
+            labels = [describe(rule) for rule in spec.validations if field_id in rule.fields]
+            add("validation", " · ".join(labels) or "No constraint")
             option = next((k for k, v in field.options.items() if v == region_id), None)
             label = field.label if option is None else option
             add("fields", label, field_id, evidence(field.evidenceIds), option=option)

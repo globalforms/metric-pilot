@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from globalforms.fixtures import load_review
+from globalforms.fixtures import load_review, review_manifests
 from globalforms.metrics import pool_a, track_a, track_b
 from globalforms.metrics.alignment import align, matching, region_iou
 from globalforms.overlays import page_marks
@@ -21,6 +21,21 @@ def wire(spec):
 
 
 class BundleTests(TestCase):
+    def test_select_new_bundles_by_name_or_manifest(self):
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            for name in ("second", "first"):
+                (root / name).mkdir()
+                (root / name / "review.json").touch()
+            first, second = [root / name / "review.json" for name in ("first", "second")]
+            self.assertEqual(review_manifests("all", root), [first, second])
+            self.assertEqual(review_manifests("second", root), [second])
+            custom = root / "external.json"
+            custom.touch()
+            self.assertEqual(review_manifests(str(custom), root), [custom])
+            with self.assertRaisesRegex(FileNotFoundError, "first, second"):
+                review_manifests("absent", root)
+
     def test_full_incident_scores_match_published_notebook(self):
         folder = FIXTURES / "incident"
         bundle = load_review(folder / "review.json")
@@ -59,7 +74,7 @@ class BundleTests(TestCase):
         self.assertEqual(scores, {"geometry": (2, 0, 0), "fields": (2, 0, 0), "sections": (2, 0, 0),
                                   "roles": (2, 0, 0), "rules": (0, 0, 0)})
         self.assertEqual(track_a(pred, ref)[0]["roles"], (0, 2, 2))
-        self.assertEqual(diagnostics["validation"], (0, 0, 1))
+        self.assertEqual(diagnostics["validation"], (0, 0, 0))
         self.assertEqual(diagnostics["requiredness"], (0, 0, 0))
 
     def test_locker_omitted_and_explicit_roles(self):

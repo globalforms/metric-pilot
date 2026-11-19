@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "pilot-1",
+  "schemaVersion": "pilot-2",
   "fields": {
     "pickup": {
       "label": "Pickup date",
@@ -85,15 +85,5 @@
     }
   },
   "rules": [],
-  "validations": [
-    {
-      "kind": "iso_calendar_date",
-      "fields": [
-        "pickup"
-      ],
-      "evidenceIds": [
-        "date_label"
-      ]
-    }
-  ]
+  "validations": []
 }
