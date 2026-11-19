@@ -4,6 +4,8 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, FiniteFloat, PositiveInt, model_validator
 
+from .validations import Constraint, DateFormat, DateValidation, ReadableConstraint
+
 
 class Model(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
@@ -66,20 +68,22 @@ class ChoiceRule(Model):
     evidenceIds: list[str] = Field(default_factory=list)
 
 
-class DateValidation(Model):
-    kind: Literal["iso_calendar_date"]
-    fields: Annotated[list[str], Field(min_length=1)]
-    evidenceIds: list[str]
-
-
 class FormSpec(Model):
-    schemaVersion: Literal["pilot-0", "pilot-1"]
+    schemaVersion: Literal["pilot-0", "pilot-1", "pilot-2"]
     fields: dict[str, Annotated[EntryField | ChoiceField, Field(discriminator="type")]]
     sections: dict[str, Section]
     regions: dict[str, Anchor]
     evidence: dict[str, Anchor]
     rules: list[ChoiceRule]
-    validations: list[DateValidation]
+    validations: list[ReadableConstraint]
+
+    def failed_validations(self, field_id: str, value: str) -> list[ReadableConstraint]:
+        """Check document constraints on a supplied string. Omission is graded separately."""
+        if field_id not in self.fields:
+            raise KeyError(field_id)
+        if not isinstance(value, str):
+            raise TypeError("Pass the value as entered, including any leading zeroes")
+        return [rule for rule in self.validations if field_id in rule.fields and not rule.accepts(value)]
 
     def _repr_html_(self) -> str:
         """Show the semantic JSON groups when a notebook displays a FormSpec."""
@@ -113,10 +117,25 @@ class FormSpec(Model):
                     or set(rule.sections) - self.sections.keys()):
                 raise ValueError("Missing or unknown rule target")
         for validation in self.validations:
+            legacy = isinstance(validation, DateValidation)
+            if legacy and self.schemaVersion == "pilot-2":
+                raise ValueError(f"{validation.kind} is unavailable in {self.schemaVersion}")
+            if not legacy and self.schemaVersion != "pilot-2":
+                raise ValueError(f"{validation.kind} requires pilot-2")
             for key in validation.fields:
-                if key not in self.fields or self.fields[key].type != "date":
+                if key not in self.fields:
+                    raise ValueError(f"Unknown validation field {key!r}")
+                if isinstance(validation, (DateFormat, DateValidation)) and self.fields[key].type != "date":
                     raise ValueError(f"Calendar validator requires a date field at {key!r}")
+                if self.fields[key].type == "choice":
+                    raise ValueError(f"Expected an entry field at {key!r}")
         for item in [*self.fields.values(), *self.sections.values(), *self.rules, *self.validations]:
             if set(item.evidenceIds) - self.evidence.keys():
                 raise ValueError("Unknown source evidence ID")
         return self
+
+
+class PredictionFormSpec(FormSpec):
+    """Current output contract supplied to producers. FormSpec also reads archived versions."""
+    schemaVersion: Literal["pilot-2"]
+    validations: list[Constraint]

@@ -46,6 +46,7 @@ class ReviewBundle(BundleModel):
     page_size: tuple[FiniteFloat, FiniteFloat] | None = None
     crop: tuple[FiniteFloat, FiniteFloat, FiniteFloat, FiniteFloat] | None = None
     completion_crop: tuple[FiniteFloat, FiniteFloat, FiniteFloat, FiniteFloat] | None = None
+    validation_probes: list[str] = Field(default_factory=list)
     default_role: str | None = None
     track_a: list[RecoveryCase] = Field(default_factory=list)
     track_b: list[CompletionCase] = Field(default_factory=list)
@@ -71,6 +72,23 @@ class ReviewBundle(BundleModel):
                     if case.layer != "geometry" or key not in spec.regions or spec.regions[key].page != self.page:
                         raise ValueError(f"Geometry inspection requires a region on page {self.page}: {key!r}")
         return self
+
+
+def review_manifests(selection: str | Path, fixture_root: Path = Path("fixtures")) -> list[Path]:
+    """Select bundled manifests or an explicit local manifest or PDF path."""
+    bundled = sorted(fixture_root.glob("*/review.json"))
+    if selection == "all":
+        if not bundled:
+            raise FileNotFoundError(f"No review.json manifests under {fixture_root}")
+        return bundled
+    for manifest in bundled:
+        if manifest.parent.name == selection:
+            return [manifest]
+    path = Path(selection).expanduser()
+    if path.is_file():
+        return [path]
+    choices = ", ".join(manifest.parent.name for manifest in bundled)
+    raise FileNotFoundError(f"Unknown fixture {selection!r}. Choose all, {choices}, or a manifest path.")
 
 
 def load_review(path: str | Path) -> ReviewBundle:
@@ -109,21 +127,27 @@ def read_page(bundle: ReviewBundle):
     if bundle.image is not None:
         return imread(bundle.image), bundle.page_size
 
-    page = str(bundle.page)
+    png, size = pdf_page_png(bundle.pdf, bundle.page, bundle.page_size)
+    return imread(BytesIO(png), format="png"), size
+
+
+def pdf_page_png(pdf: Path, page_number: int, expected_size=None):
+    """Render one unrotated CropBox and return its PNG bytes and extent in PDF points."""
+    page = str(page_number)
     selection = ["-f", page, "-l", page]
     info = subprocess.run(
-        ["pdfinfo", *selection, "-box", str(bundle.pdf)], check=True,
+        ["pdfinfo", *selection, "-box", str(pdf)], check=True,
         capture_output=True, text=True, env={**os.environ, "LC_ALL": "C"},
     ).stdout
     box = re.search(rf"^Page\s+{page} CropBox:\s*(.+)$", info, re.MULTILINE)
     if box is None or not re.search(rf"^Page\s+{page} rot:\s*0\s*$", info, re.MULTILINE):
-        raise ValueError(f"Expected an unrotated CropBox on page {page} of {bundle.pdf}")
+        raise ValueError(f"Expected an unrotated CropBox on page {page} of {pdf}")
     x0, y0, x1, y1 = map(float, box[1].split())
     size = (x1 - x0, y1 - y0)
-    if bundle.page_size and any(abs(a - b) > .02 for a, b in zip(size, bundle.page_size)):
-        raise ValueError(f"Declared page_size {bundle.page_size} differs from the PDF CropBox {size}")
+    if expected_size and any(abs(a - b) > .02 for a, b in zip(size, expected_size)):
+        raise ValueError(f"Declared page_size {expected_size} differs from the PDF CropBox {size}")
     result = subprocess.run(
-        ["pdftoppm", *selection, "-singlefile", "-cropbox", "-scale-to", "1200", "-png", str(bundle.pdf)],
+        ["pdftoppm", *selection, "-singlefile", "-cropbox", "-scale-to", "1200", "-png", str(pdf)],
         check=True, capture_output=True,
     )
-    return imread(BytesIO(result.stdout), format="png"), size
+    return result.stdout, size

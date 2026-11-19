@@ -1,9 +1,7 @@
 """Historical notebook regressions on the fixed incident and Appendix A examples."""
 
 import json
-import re
 from copy import deepcopy
-from datetime import date
 from pathlib import Path
 from unittest import TestCase
 
@@ -45,6 +43,7 @@ def field_obligation(spec, key, facts):
 
 def fixture_completer(spec, facts):
     # Deterministic stand-in for a completer. Scenario facts are separate from the spec.
+    typed = FormSpec.model_validate(spec)
     result = {}
     for key in spec["fields"]:
         if field_obligation(spec, key, facts)[0] != "active":
@@ -53,15 +52,9 @@ def fixture_completer(spec, facts):
         if entry is None:
             result[key] = status("missing")
             continue
-        if any(key in v["fields"] and v["kind"] == "iso_calendar_date"
-               for v in spec["validations"]):
-            try:
-                if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", entry):
-                    raise ValueError(entry)
-                date.fromisoformat(entry)
-            except (TypeError, ValueError):
-                result[key] = status("invalid")
-                continue
+        if typed.failed_validations(key, entry):
+            result[key] = status("invalid")
+            continue
         result[key] = value(entry)
     return result
 
@@ -152,6 +145,7 @@ class IncidentRegressionTests(TestCase):
         invalid_facts = dict(facts, review_date="2004-02-30")
         invalid_gold = dict(gold, review_date=status("invalid"))
 
+        assert fixture_completer(incident_v1, invalid_facts) == invalid_gold
         date_outputs = (fixture_completer(ref, facts), fixture_completer(ref, invalid_facts))
         branch_outputs = (fixture_completer(ref, facts), fixture_completer(ref, no_facts))
 
