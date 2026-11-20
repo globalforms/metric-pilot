@@ -8,6 +8,23 @@
 | [Length](fixtures/length/review.json) | 1 | 1 | 0 | Three identifier fields with different evidence for length and digit constraints |
 | [Locker](fixtures/locker/review.json) | 2 | 2 | 2 | Cached Flash-Lite boxes, matched-box IoUs, and role F1 with and without the Custodian default |
 
+## Learn the spec and metrics
+
+The [participant teaching notebook](GlobalForms-teaching.ipynb) is a 30–45 minute
+walkthrough for implementing a submission. It starts with the producer schema and
+completion-entry contracts, then asks readers to predict scores before revealing
+the counts and explanations. Lessons cover source evidence, option ownership,
+alignment errors, rules, document constraints, omissions, extra entries and oracle
+versus recovered-spec completion. An editable geometry experiment uses the same
+scorer as the fixture guide. The saved examples use only bundled synthetic data
+and run offline. Proposed policies are labelled separately.
+
+After installing the notebook extra below, open it with:
+
+```sh
+uv run --locked --extra notebook jupyter lab GlobalForms-teaching.ipynb
+```
+
 ## Run the notebook
 
 From the repository root, use Python 3.10 or later and uv. PDF-backed manifests also use Poppler’s `pdfinfo` and `pdftoppm` on PATH.
